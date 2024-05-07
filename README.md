@@ -15,3 +15,15 @@ the function and run automatically when you commit through a GitHub action.
 
 What is the worst-case big $\Theta$ complexity of your implementation? Add your
 answer, including your reasoning, to this markdown file.
+
+### Answer
+
+#### TL;DR
+
+`hasCycle` $\in \mathrm{\Theta}(|V|(|V| + |E|))$
+
+#### Reasoning
+
+Our implementation of `hasCycle` uses `depthFirstSearch` as a helper function. We know from previous discussions in lecture, as well as the Graph Search exercise, that the runtime complexity of depth-first search when using adjacency *lists* is $\mathrm{\Theta}(|V| + |E|)$. In fact, `depthFirstSearch` does most of the work in this exercise, and the only additional *(non-constant)* work within the `hasCycle` function is the `for...in` loop.
+
+The `for...in` loop within `hasCycle` simply calls the `depthFirstSearch` helper function for every **vertex** in the input graph. Naturally, that will take $\mathrm{\Theta}(|V|)$ to complete in the worst case because the `for...in` loop would have to parse through every vertex in the input graph. However, since it is also calling `depthFirstSearch` per-vertex being considered, we would have an actual worst-case runtime complexity $\mathrm{\Theta}(|V|(|V| + |E|)) \equiv \mathrm{\Theta}((|V|^{2}) + (|V| * | E|))$. That is because in the worst case `depthFirstSearch` must consider every edge in the graph, which inherently means that it will consider every vertex sequentially since we are using adjacency lists. Moreover, `depthFirstSearch` is called per vertex via the `hasCycle` function, hence the leading coefficient of $|V|$.
